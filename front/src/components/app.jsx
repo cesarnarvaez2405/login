@@ -1,11 +1,13 @@
 import React from 'react'
+import "tailwindcss/tailwind.css"
+import { Login } from './login'
 
-export const app = () => {
+export const App = () => {
   return (
     <>
-    <div>
-      <h3>Hola</h3>
-    </div>
+      <div className='h-full w-full'>
+        <Login />
+      </div>
     </>
-    )
+  )
 }
