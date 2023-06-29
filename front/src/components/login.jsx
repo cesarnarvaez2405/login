@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import axios from 'axios'
 
 export const Login = () => {
 
@@ -11,6 +12,9 @@ export const Login = () => {
 
     const handleSubmit = (e) => {
       e.preventDefault()
+      axios.post('http://localhost:8081/login', {email, password})
+      .then (res => console.log(res))
+      .catch (err => console.log(err))
     }
 
 
