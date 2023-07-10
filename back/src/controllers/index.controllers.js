@@ -4,7 +4,7 @@ const pool = new Pool ({
     host: 'localhost',
     user: 'postgres',
     password:'admin',
-    database:'firstapi',
+    database:'apiCesar',
     port:'5432'
 })
 
@@ -23,8 +23,8 @@ const getUserByiD = async (req, res) => {
 
 const createUser = async(req, res) => {
 
-    const {name, email} = req.body;
-    const response = await pool.query('INSERT INTO users (name, email) VALUES ($1, $2)', [name, email]); 
+    const {name, email, password} = req.body;
+    const response = await pool.query('INSERT INTO users (name, email, password) VALUES ($1, $2, $3)', [name, email, password]); 
     console.log(response)
     res.send('Usuario creado')
     
