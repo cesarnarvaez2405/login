@@ -35,8 +35,6 @@ const createUser = async(req, res) => {
 
     const {name, email} = req.body;
 
-
-
     const response = await pool.query('INSERT INTO users (name, email, password) VALUES ($1, $2, $3)', [name, email, encryptedPassword]); 
 
     // let usuario = await response.findOne({email})
@@ -79,11 +77,19 @@ const deleteUser = async (req, res) => {
 }
 
 const getLogin = async(req, res) => {
-   const response = await pool.query('SELECT * FROM login WHERE username = $1 AND password = $2',[
-    req.body.username,
-    req.body.password
+    const {email, password} = req.body
+   const response = await pool.query('SELECT * FROM users WHERE email = $1 AND password = $2',[
+    email,
+    password
    ])
-    console.log(response);
+   
+
+   res.status(201).json({
+    ok: true,
+    msg: 'registro',
+    email,
+    password
+})
     res.send('Consulta realizada')
 }
 

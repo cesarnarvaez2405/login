@@ -25,6 +25,13 @@ router.delete('/users/:id', deleteUser)
 
 
 
-router.post('/login', getLogin)
+router.post('/login', 
+[
+    check('email', 'El email es obligatorio').isEmail(),
+    check('password', 'El password debe de ser de 6 caracteres').isLength({min: 6}),
+    ValidarCampos
+
+] ,
+getLogin)
 
 module.exports = router
