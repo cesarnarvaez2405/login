@@ -1,4 +1,5 @@
 const {Pool} = require ('pg')
+const { validationResult } = require('express-validator')
 
 const pool = new Pool ({
     host: 'localhost',
@@ -25,9 +26,15 @@ const createUser = async(req, res) => {
 
     const {name, email, password} = req.body;
     const response = await pool.query('INSERT INTO users (name, email, password) VALUES ($1, $2, $3)', [name, email, password]); 
-    console.log(response)
-    res.send('Usuario creado')
     
+    res.status(201).json({
+            ok: true,
+            msg: 'registro',
+            name,
+            email,
+            password
+        })
+
 }
 
 const updateUser = async(req, res) => {
