@@ -4,7 +4,7 @@ CREATE TABLE users(
     id serial PRIMARY KEY,
     name VARCHAR(40),
     email TEXT,
-    password varchar(40)
+    password char(100)
 );
 
 CREATE TABLE login(

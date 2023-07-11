@@ -1,5 +1,5 @@
 const {Pool} = require ('pg')
-const { validationResult } = require('express-validator')
+const bcrypt = require('bcryptjs')
 
 const pool = new Pool ({
     host: 'localhost',
@@ -22,10 +22,31 @@ const getUserByiD = async (req, res) => {
     res.json(response.rows)
 }
 
+// Se realizo algunos ajustes en esta funcion, se agrego la validacion de los campos Middlewares
+// y ademas se agrego el tema de los status, al momento de errores o no
+
 const createUser = async(req, res) => {
 
-    const {name, email, password} = req.body;
-    const response = await pool.query('INSERT INTO users (name, email, password) VALUES ($1, $2, $3)', [name, email, password]); 
+    const password = req.body.password
+
+    //Encriptar constraseña
+    const salt = bcrypt.genSaltSync();
+    const encryptedPassword = await bcrypt.hash(password, salt)
+
+    const {name, email} = req.body;
+
+
+
+    const response = await pool.query('INSERT INTO users (name, email, password) VALUES ($1, $2, $3)', [name, email, encryptedPassword]); 
+
+    // let usuario = await response.findOne({email})
+
+    // if (usuario){
+    //     return res.status(400).json({
+    //         ok:false,
+    //         msg:'El usuario ya existe'
+    //     })
+    // }
     
     res.status(201).json({
             ok: true,
@@ -34,7 +55,6 @@ const createUser = async(req, res) => {
             email,
             password
         })
-
 }
 
 const updateUser = async(req, res) => {
